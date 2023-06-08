@@ -1,6 +1,9 @@
 ﻿namespace BlogViews.Enums
 {
-    public class CatchKey
+    public enum CatchKeys
     {
+        Categories,
+        Popular,
+        Social
     }
 }
