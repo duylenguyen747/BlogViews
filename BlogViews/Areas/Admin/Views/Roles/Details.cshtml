@@ -1,31 +1,53 @@
 ﻿@model BlogViews.Models.Role
 
 @{
-    ViewData["Title"] = "Details";
-    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+	ViewData["Title"] = "Details";
+	Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1>Details</h1>
+<div class="slim-pageheader">
+	<ol class="breadcrumb slim-breadcrumb">
+		<li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Home" asp-action="Index">Home</a></li>
+		<li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Roles" asp-action="Index">Quản Lý Quyền Truy Cập</a></li>
+		<li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Roles" asp-action="Create" aria-current="page">Tạo Mới Quyền Truy Cập</a></li>
+	</ol>
+	<h6 class="slim-pagetitle">Thông Tin</h6>
+</div><!-- slim-pageheader -->
+<div class="section-wrapper mg-t-20">
 
-<div>
-    <h4>Role</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RoleName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RoleName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RoleDescription)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RoleDescription)
-        </dd>
-    </dl>
+    <div class="form-layout form-layout-6">
+        <div class="row no-gutters">
+            <div class="col-5 col-sm-4">
+                ID:
+            </div><!-- col-4 -->
+            <div class="col-7 col-sm-8">
+                <input asp-for="RoleId" class="form-control" type="text">
+            </div><!-- col-8 -->
+        </div><!-- row -->
+        <div class="row no-gutters">
+            <div class="col-5 col-sm-4">
+                ROLE NAME:
+            </div><!-- col-4 -->
+            <div class="col-7 col-sm-8">
+                <input asp-for="RoleName" class="form-control" type="text">
+            </div><!-- col-8 -->
+        </div><!-- row -->
+        <div class="row no-gutters">
+            <div class="col-5 col-sm-4">
+                DESCRIPTION:
+            </div><!-- col-4 -->
+            <div class="col-7 col-sm-8">
+                <input asp-for="RoleDescription" class="form-control" type="text">
+            </div><!-- col-8 -->
+            <div class="form-layout-footer col-12">
+
+
+                <button><a asp-action="Edit" asp-route-id="@Model.RoleId" class="btn btn-primary ">Chỉnh Sửa</a> </button>
+                <button><a asp-action="Index" class="btn btn-secondary ">Trở về danh sách</a></button>
+            </div>
+        </div><!-- row -->
+
+    </div><!-- form-layout -->
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.RoleId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+	
