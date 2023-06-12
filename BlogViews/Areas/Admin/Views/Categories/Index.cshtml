@@ -1,0 +1,65 @@
+﻿@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<BlogViews.Models.Category>
+
+@{
+	ViewData["Title"] = "Quản Lý Danh Mục";
+	Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="slim-pageheader">
+	<ol class="breadcrumb slim-breadcrumb">
+		<li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Home" asp-action="Index">Home</a></li>
+		<li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Categories" asp-action="Index">Danh sách Danh Mục</a></li>
+		<li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Categories" asp-action="Create">Tạo mới Danh Mục</a></li>
+	</ol>
+	<h6 class="slim-pagetitle">Quản Lý Danh Mục</h6>
+</div><!-- slim-pageheader -->
+<div class="section-wrapper">
+	<div class="table-responsive">
+		<table class="table mg-b-0">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Tên Danh Mục</th>
+					<th>Trạng Thái</th>
+					<th>Sắp Xếp</th>
+					<th>#</th>
+				</tr>
+			</thead>
+			<tbody>
+				@if(Model != null && Model.Count > 0)
+				{
+					@foreach (var item in Model)
+					{
+						<tr>
+							<th scope="row">@item.CatId</th>
+							<td>
+								<a href="/@item.Alias">@item.CatName</a>
+							</td>
+
+							<td>
+								@if(item.Publisher == true)
+								{
+									<span class="badge badge-primary">Public</span>
+								}
+								else{
+								<span class="badge badge-primary">Non-Public</span>
+								}
+							</td>
+							<td>
+								<a asp-area="Admin" asp-controller="Categories" asp-action="Details" asp-route-id="@item.CatId">View</a> |
+								<a asp-area="Admin" asp-controller="Categories" asp-action="Edit" asp-route-id="@item.CatId">Edit</a> |
+								<a asp-area="Admin" asp-controller="Categories" asp-action="Delete" asp-route-id="@item.CatId">Delete</a>
+							</td>
+						</tr>
+					}
+				}
+			</tbody>
+		</table>
+		<div aria-label="Page navigation example">
+			<ul class="pagination">
+				<pager class="pager-container" options="@PagedListRenderOptions.Bootstrap4PageNumbersOnly" list="@Model" asp-area="Admin" asp-controller="Categories" asp-action="Index" />
+			</ul>
+		</div>
+	</div><!-- table-responsive -->
+</div><!-- section-wrapper -->
