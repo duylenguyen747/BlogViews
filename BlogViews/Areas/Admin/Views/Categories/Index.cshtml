@@ -1,4 +1,5 @@
-﻿@model IEnumerable<BlogViews.Models.Category>
+﻿@using PagedList.Core.Mvc
+@model IEnumerable<BlogViews.Models.Category>
 
 @{
     ViewData["Title"] = "Index";
@@ -7,102 +8,63 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CatName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Alias)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MetaDesc)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MetaKey)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Thumb)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Published)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ordering)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Parents)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Levels)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Icon)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cover)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CatName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Alias)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MetaDesc)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MetaKey)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Thumb)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Published)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ordering)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Parents)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Levels)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Icon)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cover)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.CatId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CatId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CatId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="slim-pageheader">
+	<ol class="breadcrumb slim-breadcrumb">
+		<li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Home" asp-action="Index">Home</a></li>
+		<li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Categories" asp-action="Index">Danh Sách Danh Mục</a></li>
+		<li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Categories" asp-action="Create" aria-current="page">Tạo Mới Danh Mục</a></li>
+	</ol>
+	<h6 class="slim-pagetitle">Quản Lý Danh Mục</h6>
+</div><!-- slim-pageheader -->
+<div class="section-wrapper">
+
+	<div class="table-responsive">
+		<table class="table mg-b-0">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Tên Danh Mục</th>
+					<th>Trạng Thái</th>
+					<th>Sắp Xếp</th>
+					<th>#</th>
+				</tr>
+			</thead>
+			<tbody>
+				@if (Model != null && Model.Count() > 0)
+				{
+					foreach (var item in Model)
+					{
+						<tr>
+							<th scope="row">@item.CatId</th>
+							<td>
+								<a href="/@item.Alias">@item.CatName</a>
+							</td>
+							<td>
+								@if (item.Published == true)
+								{
+									<span class="badge badge-primary">Public</span>
+								}
+								else
+								{
+									<span class="badge badge-primary">NON-Public</span>
+								}
+							</td>
+							<td>
+								<a asp-area="Admin" asp-controller="Categories" asp-action="Details" asp-route-id="@item.CatId">View</a> |
+								<a asp-area="Admin" asp-controller="Categories" asp-action="Edit" asp-route-id="@item.CatId">Edit</a> |
+								<a asp-area="Admin" asp-controller="Categories" asp-action="Delete" asp-route-id="@item.CatId">Delete</a>
+							</td>
+						</tr>
+
+					}
+				}
+
+			</tbody>
+		</table>
+		<div aria-label="Page navigation example">
+			<ul class="pagination">
+				<pager class="pager-container" options="@PagedListRenderOptions.Bootstrap4PageNumbersOnly" list="@Model" asp-area="Admin" asp-controller="Categories" asp-action="Index" />
+			</ul>
+		</div>
+	</div><!-- table-responsive -->
+</div><!-- section-wrapper -->

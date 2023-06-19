@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BlogViews.Models;
+using BlogViews.Helpper;
+using PagedList.Core;
 
 namespace BlogViews.Areas.Admin.Controllers
 {
@@ -20,12 +22,24 @@ namespace BlogViews.Areas.Admin.Controllers
         }
 
         // GET: Admin/Categories
-        public async Task<IActionResult> Index()
+        //public async Task<IActionResult> Index()
+        //{
+        //      return _context.Categories != null ? 
+        //                  View(await _context.Categories.ToListAsync()) :
+        //                  Problem("Entity set 'BlogViewsDbContext.Categories'  is null.");
+        //}
+
+        public IActionResult Index(int? page)
         {
-              return _context.Categories != null ? 
-                          View(await _context.Categories.ToListAsync()) :
-                          Problem("Entity set 'BlogViewsDbContext.Categories'  is null.");
+            var pageNumber = page == null || page <= 0 ? 1 : page.Value;
+            var pageSize = Utilities.PAGE_SIZE;
+            var lsCategories = _context.Categories
+                .OrderByDescending(x => x.CatId);
+            PagedList<Category> models = new PagedList<Category>(lsCategories, pageNumber, pageSize);
+            ViewBag.CurrentPage = pageNumber;
+            return View(models);
         }
+
 
         // GET: Admin/Categories/Details/5
         public async Task<IActionResult> Details(int? id)
